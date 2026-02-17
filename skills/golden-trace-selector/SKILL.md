@@ -26,7 +26,7 @@ Use this skill when asked to:
 **First, fetch and read the prompt definition:**
 
 ```bash
-python /Users/prashant/bt_agent/prompt_utils.py fetch-prompt --slug <PROMPT_SLUG>
+python /path/to/bt_agent/prompt_utils.py fetch-prompt --slug <PROMPT_SLUG>
 ```
 
 **Read the system message carefully and answer these questions:**
@@ -113,7 +113,7 @@ Example for task-extraction:
 **Fetch recent traces:**
 
 ```bash
-python /Users/prashant/bt_agent/prompt_utils.py fetch-traces --slug <PROMPT_SLUG> --hours 168 --limit 500 --output /tmp/traces.json
+python /path/to/bt_agent/prompt_utils.py fetch-traces --slug <PROMPT_SLUG> --hours 168 --limit 500 --output /tmp/traces.json
 ```
 
 **Read the traces file and analyze:**
@@ -163,7 +163,7 @@ python /Users/prashant/bt_agent/prompt_utils.py fetch-traces --slug <PROMPT_SLUG
 Create a JSON file with selected trace IDs, then use the save tool:
 
 ```bash
-python /Users/prashant/bt_agent/prompt_utils.py save-golden --input /tmp/selected_traces.json --output golden_dataset.json
+python /path/to/bt_agent/prompt_utils.py save-golden --input /tmp/selected_traces.json --output golden_dataset.json
 ```
 
 **Document your selection:**
@@ -216,23 +216,23 @@ When delivering results, provide:
 
 **List all prompts:**
 ```bash
-python /Users/prashant/bt_agent/prompt_utils.py list-prompts
+python /path/to/bt_agent/prompt_utils.py list-prompts
 ```
 
 **Fetch prompt definition:**
 ```bash
-python /Users/prashant/bt_agent/prompt_utils.py fetch-prompt --slug <name>
-python /Users/prashant/bt_agent/prompt_utils.py fetch-prompt --slug <name> --json  # Full JSON
+python /path/to/bt_agent/prompt_utils.py fetch-prompt --slug <name>
+python /path/to/bt_agent/prompt_utils.py fetch-prompt --slug <name> --json  # Full JSON
 ```
 
 **Fetch traces:**
 ```bash
-python /Users/prashant/bt_agent/prompt_utils.py fetch-traces --slug <name> --hours 168 --limit 500 --output traces.json
+python /path/to/bt_agent/prompt_utils.py fetch-traces --slug <name> --hours 168 --limit 500 --output traces.json
 ```
 
 **Save golden dataset:**
 ```bash
-python /Users/prashant/bt_agent/prompt_utils.py save-golden --input traces.json --output golden.json
+python /path/to/bt_agent/prompt_utils.py save-golden --input traces.json --output golden.json
 ```
 
 ---
@@ -253,7 +253,7 @@ python /Users/prashant/bt_agent/prompt_utils.py save-golden --input traces.json 
 
 **Step 1**: Fetch prompt
 ```bash
-python /Users/prashant/bt_agent/prompt_utils.py fetch-prompt --slug email-tagger
+python /path/to/bt_agent/prompt_utils.py fetch-prompt --slug email-tagger
 ```
 
 **Step 2**: Read and understand
@@ -266,7 +266,7 @@ python /Users/prashant/bt_agent/prompt_utils.py fetch-prompt --slug email-tagger
 
 **Step 4**: Fetch traces
 ```bash
-python /Users/prashant/bt_agent/prompt_utils.py fetch-traces --slug email-tagger --hours 168 --limit 500 --output /tmp/traces.json
+python /path/to/bt_agent/prompt_utils.py fetch-traces --slug email-tagger --hours 168 --limit 500 --output /tmp/traces.json
 ```
 
 **Step 5**: Analyze and select
