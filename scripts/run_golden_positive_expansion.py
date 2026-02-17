@@ -15,6 +15,8 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import requests
 
+from project_paths import ENV_FILE, TRACES_DIR
+
 
 DEFAULT_BASE_URL = "https://api.braintrust.dev"
 DEFAULT_PROJECT_NAME = "llm-gateway_production"
@@ -451,7 +453,7 @@ def main() -> int:
     )
     parser.add_argument(
         "--output-root",
-        default="/Users/prashant/bt_agent/traces/golden_positive_expansion",
+        default=str(TRACES_DIR / "golden_positive_expansion"),
     )
     parser.add_argument("--target-good", type=int, default=30)
     parser.add_argument("--target-bad", type=int, default=20)
@@ -469,7 +471,7 @@ def main() -> int:
         default="ids",
         help="ids: print only selected trace IDs (default); artifacts: write dataset files and reports.",
     )
-    parser.add_argument("--env-file", default="/Users/prashant/bt_agent/.env")
+    parser.add_argument("--env-file", default=str(ENV_FILE))
     args = parser.parse_args()
 
     load_dotenv(Path(args.env_file))
