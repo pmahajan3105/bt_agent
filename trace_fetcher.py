@@ -181,7 +181,7 @@ def build_trace_query(
     prompt_name: str,
     hours: int,
     limit: int,
-    offset: int = 0,
+    cursor: Optional[str] = None,
     include_errors: bool = False,
 ) -> str:
     """
@@ -211,9 +211,13 @@ def build_trace_query(
 from: project_logs('{project_id}')
 spans
 filter: {where_clause}
-order by: created desc
+sort: created desc
 limit: {limit}
-offset: {offset}"""
+"""
+
+    # Cursor-based pagination (preferred over offset; BTQL may not support offset).
+    if cursor:
+        query += f"cursor: {cursor}\n"
 
     return query
 
@@ -237,7 +241,7 @@ def fetch_traces_paginated(
     )
 
     query_source = config.query_source or f"trace_fetcher_{uuid.uuid4().hex[:8]}"
-    offset = 0
+    cursor: Optional[str] = None
     all_traces: List[Dict[str, Any]] = []
 
     while len(all_traces) < config.max_traces:
@@ -249,26 +253,30 @@ def fetch_traces_paginated(
             prompt_name=config.prompt_name,
             hours=config.hours,
             limit=batch_limit,
-            offset=offset,
+            cursor=cursor,
             include_errors=config.include_errors,
         )
 
         try:
             resp = client.btql(query, fmt="json", query_source=query_source)
             data = resp.get("data", [])
+            next_cursor = resp.get("cursor")
 
             if not data:
                 # No more results
                 break
 
             all_traces.extend(data)
-            offset += len(data)
+            cursor = next_cursor
 
             if progress_callback:
                 progress_callback(len(all_traces), config.max_traces)
 
             # If we got fewer results than requested, we've exhausted the data
             if len(data) < batch_limit:
+                break
+            # If the backend doesn't provide a cursor, we can't paginate further.
+            if not cursor:
                 break
 
         except BraintrustApiError as e:
@@ -439,11 +447,14 @@ def cmd_fetch(args: argparse.Namespace, client: BraintrustClient) -> int:
     # Analyze traces
     analysis = analyze_traces(result.traces)
     print(f"\nAnalysis:")
-    print(f"  Traces with output: {analysis['traces_with_output']:,}")
-    print(f"  Traces with errors: {analysis['traces_with_errors']:,}")
-    print(f"  Models: {analysis['models_distribution']}")
-    if analysis['date_range']['earliest']:
-        print(f"  Date range: {analysis['date_range']['earliest'][:10]} to {analysis['date_range']['latest'][:10]}")
+    if analysis.get("total_traces", 0) == 0:
+        print(f"  {analysis.get('message', 'No traces found')}")
+    else:
+        print(f"  Traces with output: {analysis['traces_with_output']:,}")
+        print(f"  Traces with errors: {analysis['traces_with_errors']:,}")
+        print(f"  Models: {analysis['models_distribution']}")
+        if analysis['date_range']['earliest']:
+            print(f"  Date range: {analysis['date_range']['earliest'][:10]} to {analysis['date_range']['latest'][:10]}")
 
     # Transform to dataset format
     dataset_rows = create_dataset_from_traces(
