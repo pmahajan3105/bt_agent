@@ -449,7 +449,8 @@ def main() -> int:
     parser.add_argument("--scorer-slug", default=None)
     parser.add_argument(
         "--config-file",
-        default="/Users/prashant/monaco/antalya/ml/braintrust/evaluations/configs/production_trace_evaluations/production_trace_evals.json",
+        default=None,
+        help="Path to production_trace_evals.json; required when --scorer-slug is not provided.",
     )
     parser.add_argument(
         "--output-root",
@@ -481,6 +482,8 @@ def main() -> int:
 
     scorer_slug = args.scorer_slug
     if not scorer_slug:
+        if not args.config_file:
+            raise SystemExit("Provide either --scorer-slug or --config-file")
         scorer_slug = resolve_scorer_slug(Path(args.config_file), args.prompt_name)
 
     out_dir = Path(args.output_root) / args.prompt_name

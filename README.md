@@ -12,11 +12,11 @@ It supports:
 - **Install dependencies**:
 
 ```bash
-cd /Users/prashant/bt_agent && python3 -m pip install -r requirements.txt
+cd /path/to/bt_agent && python3 -m pip install -r requirements.txt
 ```
 
 - **Create a `.env` file (recommended)**:
-  - Create `/Users/prashant/bt_agent/.env` and put your keys in it. The script **auto-loads** this file on every run.
+  - Create `/path/to/bt_agent/.env` and put your keys in it. The script **auto-loads** this file on every run.
 
 Example `.env`:
 
@@ -49,19 +49,19 @@ BT_AGENT_ENV_FILE="/absolute/path/to/some.env" python3 bt_agent.py --help
 ### Run
 
 ```bash
-cd /Users/prashant/bt_agent && python3 bt_agent.py --help
+cd /path/to/bt_agent && python3 bt_agent.py --help
 ```
 
 ### Update a dataset (PATCH)
 
 ```bash
-cd /Users/prashant/bt_agent && python3 bt_agent.py   dataset patch   --id "<dataset_id>"   --json-file "/absolute/path/to/patch.json"
+cd /path/to/bt_agent && python3 bt_agent.py   dataset patch   --id "<dataset_id>"   --json-file "/absolute/path/to/patch.json"
 ```
 
 ### Fetch 1 example row from a dataset
 
 ```bash
-cd /Users/prashant/bt_agent && python3 bt_agent.py dataset fetch --id "<dataset_id>" --limit 1
+cd /path/to/bt_agent && python3 bt_agent.py dataset fetch --id "<dataset_id>" --limit 1
 ```
 
 ### Auto-generate a dataset description (and optionally apply it)
@@ -69,37 +69,37 @@ cd /Users/prashant/bt_agent && python3 bt_agent.py dataset fetch --id "<dataset_
 Dry-run (prints the suggested description):
 
 ```bash
-cd /Users/prashant/bt_agent && python3 bt_agent.py dataset describe --id "<dataset_id>"
+cd /path/to/bt_agent && python3 bt_agent.py dataset describe --id "<dataset_id>"
 ```
 
 Apply (will prompt to confirm unless you add `--yes`):
 
 ```bash
-cd /Users/prashant/bt_agent && python3 bt_agent.py dataset describe --id "<dataset_id>" --apply
+cd /path/to/bt_agent && python3 bt_agent.py dataset describe --id "<dataset_id>" --apply
 ```
 
 Note: `--yes` is a global flag, so it must come before the subcommand, e.g.:
 
 ```bash
-cd /Users/prashant/bt_agent && python3 bt_agent.py --yes dataset describe --id "<dataset_id>" --apply
+cd /path/to/bt_agent && python3 bt_agent.py --yes dataset describe --id "<dataset_id>" --apply
 ```
 
 ### Fetch traces for a prompt (BTQL) + basic local analysis
 
 ```bash
-cd /Users/prashant/bt_agent && python3 bt_agent.py   traces   --project-id "<project_id>"   --prompt-name "chat-query-parser"   --hours 24   --max-traces 200   --save-traces-as "/tmp/bt_traces.json"   --save-analysis-as "/tmp/bt_traces_analysis.json"
+cd /path/to/bt_agent && python3 bt_agent.py   traces   --project-id "<project_id>"   --prompt-name "chat-query-parser"   --hours 24   --max-traces 200   --save-traces-as "/tmp/bt_traces.json"   --save-analysis-as "/tmp/bt_traces_analysis.json"
 ```
 
 ### Run a raw BTQL query
 
 ```bash
-cd /Users/prashant/bt_agent && python3 bt_agent.py   btql   --query-file "/absolute/path/to/query.btql"   --save-as "/tmp/btql_result.json"
+cd /path/to/bt_agent && python3 bt_agent.py   btql   --query-file "/absolute/path/to/query.btql"   --save-as "/tmp/btql_result.json"
 ```
 
 ### Agent mode (LLM plans actions; you confirm before execute)
 
 ```bash
-cd /Users/prashant/bt_agent && python3 bt_agent.py   agent   "Patch dataset 123e4567-e89b-12d3-a456-426614174000 to rename it to 'My New Dataset'"   --save-plan-as "/tmp/bt_agent_plan.json"
+cd /path/to/bt_agent && python3 bt_agent.py   agent   "Patch dataset 123e4567-e89b-12d3-a456-426614174000 to rename it to 'My New Dataset'"   --save-plan-as "/tmp/bt_agent_plan.json"
 ```
 
 If you want to skip confirmations (dangerous), add `--yes`.
@@ -109,5 +109,5 @@ If you want to skip confirmations (dangerous), add `--yes`.
 There is an editable file at `AGENT_INSTRUCTIONS.md`. You can pass it to agent mode like this:
 
 ```bash
-cd /Users/prashant/bt_agent && python3 bt_agent.py agent "..." --instruction-file "/Users/prashant/bt_agent/AGENT_INSTRUCTIONS.md"
+cd /path/to/bt_agent && python3 bt_agent.py agent "..." --instruction-file "/path/to/bt_agent/AGENT_INSTRUCTIONS.md"
 ```

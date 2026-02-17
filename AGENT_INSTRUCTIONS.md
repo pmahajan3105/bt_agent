@@ -14,13 +14,13 @@ These are **operational rules** for using `bt_agent.py` safely, especially when 
 1) Preview what the tool *would* write:
 
 ```bash
-cd /Users/prashant/bt_agent && python3 bt_agent.py dataset describe --id "<dataset_id>"
+cd /path/to/bt_agent && python3 bt_agent.py dataset describe --id "<dataset_id>"
 ```
 
 2) If it looks good, apply it (this should prompt you to confirm):
 
 ```bash
-cd /Users/prashant/bt_agent && python3 bt_agent.py dataset describe --id "<dataset_id>" --apply
+cd /path/to/bt_agent && python3 bt_agent.py dataset describe --id "<dataset_id>" --apply
 ```
 
 ### Agent mode guidance (LLM planner)
